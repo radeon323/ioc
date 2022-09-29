@@ -22,6 +22,15 @@ import java.util.Map;
  * @author Oleksandr Shevchenko
  */
 public class XMLDomBeanDefinitionReader implements BeanDefinitionReader {
+
+    private static final String BEAN = "bean";
+    private static final String ID = "id";
+    private static final String CLASS = "class";
+    private static final String PROPERTY = "property";
+    private static final String NAME = "name";
+    private static final String VALUE = "value";
+    private static final String REF = "ref";
+
     private final List<BeanDefinition> beanDefinitions = new ArrayList<>();
     private final File contextFile;
 
@@ -41,7 +50,7 @@ public class XMLDomBeanDefinitionReader implements BeanDefinitionReader {
             throw new SourceParseException("Error parsing XML", e);
         }
         Node rootNode = doc.getFirstChild();
-        NodeList beans = rootNode.getOwnerDocument().getElementsByTagName("bean");
+        NodeList beans = rootNode.getOwnerDocument().getElementsByTagName(BEAN);
 
         for (int i = 0; i < beans.getLength(); i++) {
             beanDefinitions.add(parseBean(beans, i));
@@ -54,8 +63,8 @@ public class XMLDomBeanDefinitionReader implements BeanDefinitionReader {
 
         if (beans.item(i).getNodeType() == Node.ELEMENT_NODE) {
             Element beanElement = (Element) beans.item(i);
-            beanDefinition.setId(beanElement.getAttribute("id"));
-            beanDefinition.setBeanClassName(beanElement.getAttribute("class"));
+            beanDefinition.setId(beanElement.getAttribute(ID));
+            beanDefinition.setBeanClassName(beanElement.getAttribute(CLASS));
 
             NodeList properties = beans.item(i).getChildNodes();
 
@@ -72,15 +81,15 @@ public class XMLDomBeanDefinitionReader implements BeanDefinitionReader {
 
         for (int i = 0; i < properties.getLength(); i++) {
 
-            if (properties.item(i).getNodeType() != Node.ELEMENT_NODE || !properties.item(i).getNodeName().equals("property")) {
+            if (properties.item(i).getNodeType() != Node.ELEMENT_NODE || !properties.item(i).getNodeName().equals(PROPERTY)) {
                 continue;
             }
 
             Element propertyElement = (Element) properties.item(i);
 
-            Node nameNode = propertyElement.getAttributes().getNamedItem("name");
-            Node valueNode = propertyElement.getAttributes().getNamedItem("value");
-            Node refNode = propertyElement.getAttributes().getNamedItem("ref");
+            Node nameNode = propertyElement.getAttributes().getNamedItem(NAME);
+            Node valueNode = propertyElement.getAttributes().getNamedItem(VALUE);
+            Node refNode = propertyElement.getAttributes().getNamedItem(REF);
 
             if (nameNode != null && valueNode != null) {
                 String name = nameNode.toString().substring(0, 4);

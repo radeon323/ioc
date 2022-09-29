@@ -7,15 +7,12 @@ import com.olshevchenko.ioc.service.PaymentService;
 import com.olshevchenko.ioc.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Oleksandr Shevchenko
  */
-@ExtendWith(MockitoExtension.class)
 class ClassPathApplicationContextTest {
 
     private final String path = "src/main/webapp/WEB-INF/context.xml";

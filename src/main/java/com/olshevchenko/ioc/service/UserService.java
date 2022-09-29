@@ -6,10 +6,10 @@ import lombok.*;
  * @author Oleksandr Shevchenko
  */
 @Setter
+@ToString
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class UserService {
     private MailService mailService;
 
