@@ -40,7 +40,10 @@ public class ClassPathApplicationContext implements ApplicationContext {
 
     @Override
     public <T> T getBean(Class<T> clazz) {
-        List<Object> listOfBeans = beans.values().stream().map(Bean::getValue).filter(bean -> clazz.equals(bean.getClass())).toList();
+        List<Object> listOfBeans = beans.values().stream()
+                .map(Bean::getValue)
+                .filter(bean -> clazz.equals(bean.getClass()))
+                .toList();
         if (listOfBeans.size() > 1) {
             throw new MultipleBeansForClassException("More than one bean found for class " + clazz.getName());
         }
@@ -57,8 +60,8 @@ public class ClassPathApplicationContext implements ApplicationContext {
     }
 
     @Override
-    public Object getBean(String name) {
-        return beans.get(name).getValue();
+    public <T> T getBean(String name) {
+        return (T) beans.get(name).getValue();
     }
 
     @Override
@@ -76,7 +79,6 @@ public class ClassPathApplicationContext implements ApplicationContext {
             try {
                 Object object = Class.forName(beanDefinition.getBeanClassName()).getConstructor().newInstance();
                 String id = beanDefinition.getId();
-
                 Bean bean = new Bean();
                 bean.setId(id);
                 bean.setValue(object);

@@ -23,6 +23,7 @@ import java.util.Map;
  */
 public class XMLDomBeanDefinitionReader implements BeanDefinitionReader {
 
+    private static final String BEANS = "beans";
     private static final String BEAN = "bean";
     private static final String ID = "id";
     private static final String CLASS = "class";
@@ -49,7 +50,7 @@ public class XMLDomBeanDefinitionReader implements BeanDefinitionReader {
         } catch (ParserConfigurationException | SAXException | IOException e) {
             throw new SourceParseException("Error parsing XML", e);
         }
-        Node rootNode = doc.getFirstChild();
+        Node rootNode = doc.getFirstChild().getOwnerDocument().getElementsByTagName(BEANS).item(0);
         NodeList beans = rootNode.getOwnerDocument().getElementsByTagName(BEAN);
 
         for (int i = 0; i < beans.getLength(); i++) {

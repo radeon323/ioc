@@ -38,7 +38,8 @@ class ClassPathApplicationContextTest {
         applicationContextSetReader.start();
         assertEquals(applicationContext.getBean(UserService.class),applicationContextSetReader.getBean(UserService.class));
         assertEquals(applicationContext.getBean("mailService", MailService.class),applicationContextSetReader.getBean("mailService", MailService.class));
-        assertEquals(applicationContext.getBean("paymentWithMaxService"),applicationContextSetReader.getBean("paymentWithMaxService"));
+        Object actual = applicationContextSetReader.getBean("paymentWithMaxService");
+        assertEquals(applicationContext.getBean("paymentWithMaxService"), actual);
     }
 
     @Test
